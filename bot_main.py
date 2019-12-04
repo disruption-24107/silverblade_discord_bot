@@ -31,7 +31,7 @@ If you are a friend of the guild, just ask your friend to type `!friend @you` in
 
 
 @bot.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def application(ctx):
     if not isinstance(ctx.channel, discord.DMChannel):
         await ctx.send("I'll send you the details now, please check your private messages!")
@@ -52,9 +52,10 @@ It would be great if you could also tell us:
 !why         Why do you want to join?
 !xp          What experience you have so far?
 ```
-  
+
 Once you've provided all of this tell me you're `!done`, I'll have someone from our recruitment team get back to you really soon! :-)
 """)
+
 
 def applicant(applicant_map, member):
     if member not in applicant_map:
@@ -70,12 +71,14 @@ async def armory(ctx):
         applicant(applicants, ctx.author)["armory"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
+
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def raiderio(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         applicant(applicants, ctx.author)["raiderio"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
+
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -84,12 +87,14 @@ async def logs(ctx):
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
+
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def why(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
+
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -98,24 +103,48 @@ async def xp(ctx):
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
+
 @bot.command()
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 5, commands.BucketType.user)
 async def done(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
-        if "done" in applicant(applicants, ctx.author):
+
+        applicant_map = applicant(applicants, ctx.author)
+
+        if "done" in applicant_map:
             await ctx.author.send("""You've already applied, check #applications to see your full application.""")
             return
-        
+
+        if "armory" not in applicant_map:
+            await ctx.author.send("""You're missing the armory link (use `!armory <URL>` here to provide it). If you don't want to provide this, just say N/A""")
+            return
+
+        if "raiderio" not in applicant_map:
+            await ctx.author.send("""You're missing your RaiderIO information (use `!raiderio <URL>` here to provide it). If you don't want to provide this, just say N/A""")
+            return
+
+        if "logs" not in applicant_map:
+            await ctx.author.send("""You're missing your logs (use `!logs <URL>` here to provide it). If you don't want to provide this, just say N/A""")
+            return
+
+        if "why" not in applicant_map:
+            await ctx.author.send("""You haven't told us why you want to join (use `!why <reason>` here to provide it). If you don't want to provide this, just say N/A""")
+            return
+
+        if "xp" not in applicant_map:
+            await ctx.author.send("""You haven't told us about your raiding history (use `!xp <history>` here to provide it). If you don't want to provide this, just say N/A""")
+            return
+
         guild = bot.get_guild(238705194244898817)
         role = discord.utils.get(guild.roles, name='Applicant')
-        guild.get_member(ctx.author).add_roles(role)
+        await guild.get_member(ctx.author.id).add_roles(role)
 
-        applicant(applicants, ctx.author)["done"] = datetime.now().strftime("%D")
+        applicant_map["done"] = datetime.now().strftime("%D")
 
         await ctx.author.send("""Great! I'll post your details in #applications, head over there to check the status""")
         channel = bot.get_channel(651719224275894272)
         await channel.send("""**Application** ({0})
-    
+
 **Name**: {1}
 **Armory**: {2}
 **RaiderIO**: {3}
@@ -130,7 +159,9 @@ async def done(ctx):
 **Status**
 Pending
 ** **
-""".format(datetime.now().strftime("%D"), ctx.author, applicant(applicants, ctx.author)["armory"], applicant(applicants, ctx.author)["raiderio"], applicant(applicants, ctx.author)["logs"], applicant(applicants, ctx.author)["why"], applicant(applicants, ctx.author)["xp"]))
+""".format(datetime.now().strftime("%D"), ctx.author, applicant(applicants, ctx.author)["armory"],
+           applicant(applicants, ctx.author)["raiderio"], applicant(applicants, ctx.author)["logs"],
+           applicant(applicants, ctx.author)["why"], applicant(applicants, ctx.author)["xp"]))
 
 
 @bot.command(pass_context=True)
@@ -145,6 +176,7 @@ async def friend(ctx):
     else:
         await member.add_roles(role)
         await ctx.send("A friend of yours is a friend of mine!")
+
 
 @bot.command(pass_context=True)
 @commands.has_any_role('Councillor')
@@ -166,7 +198,7 @@ async def accept(ctx):
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def rules(ctx):
     await ctx.author.send("""
 Our rules can be navigated with a menu based system. Please see the following options:
@@ -184,7 +216,7 @@ Our rules can be navigated with a menu based system. Please see the following op
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def ranks(ctx):
     await ctx.send("""
 There are a few ground rules you must follow in Silverblade depending on your rank.
@@ -216,7 +248,7 @@ If, in the unlikely event you, or the raid team decide staying as a raider isn't
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def alts(ctx):
     await ctx.send("""
 We expect you to turn up to raids with you main character in your main spec by default. In some cases, such as when a boss calls for a specific comp, we may discuss asking you to go off-spec or even to an alt.
@@ -230,7 +262,7 @@ This is primarily because of forced personal loot, because we don't want items s
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def prep(ctx):
     await ctx.send("""
 We expect you to have read the strategies posted on Discord before the raid. Be ready to deal with any special assignment you may get as a result of your role on the given fight.
@@ -260,7 +292,7 @@ Vantus runes may be provided when needed. If feast is the best type of food at t
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def addons(ctx):
     await ctx.send("""
 These add-ons are mandatory:
@@ -275,7 +307,7 @@ Please keep them updated!
 
 
 @bot.command(pass_context=True)
-@commands.cooldown(1, 180, commands.BucketType.user)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def times(ctx):
     await ctx.send("""
 Our raid days are **Thursday** 20:30-23:30 and **Sunday** 20:30-23:30 server time every week. Occasionally the raid time may extend for a few more pulls if we feel we're close to a kill, but never past midnight.   
@@ -295,6 +327,7 @@ Try to be online 15 minutes before raid. Be on no later than the start and be re
 
 
 @bot.command(pass_context=True)
+@commands.cooldown(1, 30, commands.BucketType.user)
 async def about(ctx):
     await ctx.send("""
 Silverblade is a World of Warcraft **mythic** raiding guild, formed in 2016 after a number of casual but dedicated players wanted to spend a few nights per week raiding together. We've been steadily growing our list of cutting edge achievements from Xavius in Emerald Nightmare, to Argus in Antorus, G'huun in Uldir and Jaina Proudmore in Battle of Dazar'alor.
