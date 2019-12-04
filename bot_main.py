@@ -8,7 +8,6 @@ bot = commands.Bot(command_prefix='!')
 
 applicants = {}
 
-
 @bot.event
 async def on_member_join(member):
     await member.send("""
@@ -43,14 +42,14 @@ We're going to need some information from you, but make sure you've read the **!
 
 Once you've read the rules, please provide us with the following:
 ```
-!armory      The link to your armory profile (repeatable for each alt if you have alts)
-!raiderio    The link to your raider.io profile
-!logs        A link to your best logs
+!armory      <Type the link to your armory profile (repeatable for each alt if you have alts)>
+!raiderio    <Type the link to your raider.io profile>
+!logs        <Type the link to your best logs>
 ```
 It would be great if you could also tell us:
 ```
-!why         Why do you want to join? What makes us the guild for you? What do you expect from us?
-!xp          What experience you have so far?
+!why         <Type why do you want to join? What makes us the guild for you? What do you expect from us?>
+!xp          <Type what raiding experience you have so far?>
 ```
 
 Once you've provided all of this tell me you're `!done`, I'll have someone from our recruitment team get back to you really soon! :-)
@@ -68,6 +67,10 @@ def applicant(applicant_map, member):
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def armory(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
+        if len(ctx.message.content.strip().split(" ")) <= 1:
+            await ctx.author.send("You need to type `!armory <the link to your armory profile here>`")
+            return
+        
         applicant(applicants, ctx.author)["armory"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
@@ -76,6 +79,10 @@ async def armory(ctx):
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def raiderio(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
+        if len(ctx.message.content.strip().split(" ")) <= 1:
+            await ctx.author.send("You need to type `!raiderio <the link to your raiderio profile here or N/A>`.")
+            return
+        
         applicant(applicants, ctx.author)["raiderio"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
@@ -84,6 +91,10 @@ async def raiderio(ctx):
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def logs(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
+        if len(ctx.message.content.strip().split(" ")) <= 1:
+            await ctx.author.send("You need to type `!logs <the link to your logs here or N/A>`")
+            return
+        
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
@@ -92,6 +103,10 @@ async def logs(ctx):
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def why(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
+        if len(ctx.message.content.strip().split(" ")) <= 1:
+            await ctx.author.send("You need to type `!why <the reason you want to join>`")
+            return
+        
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
@@ -100,6 +115,10 @@ async def why(ctx):
 @commands.cooldown(1, 1, commands.BucketType.user)
 async def xp(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
+        if len(ctx.message.content.strip().split(" ")) <= 1:
+            await ctx.author.send("You need to type `!xp <your raiding history/experience here>`")
+            return
+        
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
         await ctx.author.send("""Thanks!""")
 
@@ -201,7 +220,7 @@ async def accept(ctx):
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def rules(ctx):
     await ctx.author.send("""
-Our rules can be navigated with a menu based system. Please see the following options:
+Our rules can be navigated with a menu based system. Our rules can be navigated with a menu based system. Simply type the `!command` you want to view into this message chain.
 
 ```
 !ranks       - Types of ranks in the guild.
