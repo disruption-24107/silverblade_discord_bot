@@ -112,7 +112,7 @@ async def done(ctx):
         applicant(applicants, ctx.author)["done"] = datetime.now().strftime("%D")
 
         await ctx.author.send("""Great! I'll post your details in #applications, head over there to check the status""")
-        channel = bot.get_channel(651182846207197185)
+        channel = bot.get_channel(651719224275894272)
         await channel.send("""**Application** ({0})
     
 **Name**: {1}
@@ -151,7 +151,7 @@ async def friend(ctx):
 async def accept(ctx):
     role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Initiate')
     member = ctx.message.mentions[0]
-    channel = bot.get_channel(651182846207197185)
+    channel = bot.get_channel(651719224275894272)
 
     await member.add_roles(role)
     await channel.send("""**Application** ({0})
