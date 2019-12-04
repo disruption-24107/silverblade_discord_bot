@@ -1,5 +1,6 @@
 import discord
 import sys
+import os
 from discord.ext import commands
 from datetime import datetime
 
@@ -307,4 +308,4 @@ Please take a look at the `!rules` before applying
 """)
 
 
-bot.run(sys.argv[1])
+bot.run(os.getenv('DISCORD_TOKEN'))
