@@ -41,7 +41,7 @@ async def application(ctx):
 
 We're going to need some information from you, but make sure you've read the **!rules** first.
 
-Once you've read the rules, please enter each of the commands below, replacing the relevant text areas with links to your character information pages:
+Once you've read the rules, please enter each of the commands below, providing links to your character information web pages:
 
 **Please send each command below as a separate direct message to the bot.**
 
