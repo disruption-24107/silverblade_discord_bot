@@ -219,9 +219,9 @@ async def accept(ctx):
     ** **
     """.format(datetime.now().strftime("%D"), member))
 
-
+    
 @bot.command(pass_context=True)
-@commands.cooldown(1, 30, commands.BucketType.user)
+@commands.cooldown(1, 5, commands.BucketType.user)
 async def rules(ctx):
     await ctx.author.send("""
 Our rules can be navigated with a menu based system. Our rules can be navigated with a menu based system. Simply type the `!command` you want to view into this message chain.
@@ -238,6 +238,12 @@ Our rules can be navigated with a menu based system. Our rules can be navigated 
 """)
 
 
+@bot.command(pass_context=True)
+@commands.cooldown(1, 5, commands.BucketType.user)
+async def menu(ctx):
+    await rules.invoke(ctx)
+
+    
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def ranks(ctx):
