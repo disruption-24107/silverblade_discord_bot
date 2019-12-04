@@ -4,7 +4,7 @@ import os
 from discord.ext import commands
 from datetime import datetime
 
-bot = commands.Bot(command_prefix='!')
+bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
 applicants = {}
 
@@ -40,13 +40,13 @@ async def application(ctx):
 
 We're going to need some information from you, but make sure you've read the **!rules** first.
 
-Once you've read the rules, please provide us with the following:
+Once you've read the rules, please copy and past the messages below, into this chat, replacing the relevant text areas with links to your character information pages:
 ```
 !armory      <Type the link to your armory profile (repeatable for each alt if you have alts)>
 !raiderio    <Type the link to your raider.io profile>
 !logs        <Type the link to your best logs>
 ```
-It would be great if you could also tell us:
+It would be great if you could also tell us a bit more about you by copy and pasting the messages below and filling in the required information.
 ```
 !why         <Type why do you want to join? What makes us the guild for you? What do you expect from us?>
 !xp          <Type what raiding experience you have so far?>
@@ -72,7 +72,7 @@ async def armory(ctx):
             return
         
         applicant(applicants, ctx.author)["armory"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thanks!""")
+        await ctx.author.send("""Thank you for providing your armory information!""")
 
 
 @bot.command()
@@ -84,7 +84,7 @@ async def raiderio(ctx):
             return
         
         applicant(applicants, ctx.author)["raiderio"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thanks!""")
+        await ctx.author.send("""Thank you for providing your RaiderIO information!""")
 
 
 @bot.command()
@@ -96,7 +96,7 @@ async def logs(ctx):
             return
         
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thanks!""")
+        await ctx.author.send("""Thank you for providing your logs!""")
 
 
 @bot.command()
@@ -108,7 +108,7 @@ async def why(ctx):
             return
         
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thanks!""")
+        await ctx.author.send("""Thank you for telling us why you want to join!""")
 
 
 @bot.command()
@@ -120,7 +120,7 @@ async def xp(ctx):
             return
         
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thanks!""")
+        await ctx.author.send("""Thank you for telling us your experience/history!""")
 
 
 @bot.command()
