@@ -44,12 +44,12 @@ We're going to need some information from you, but make sure you've read the **!
 Once you've read the rules, please provide us with the following:
 ```
 !armory      The link to your armory profile (repeatable for each alt if you have alts)
-!raiderio   The link to your raider.io profile
+!raiderio    The link to your raider.io profile
 !logs        A link to your best logs
 ```
 It would be great if you could also tell us:
 ```
-!why         Why do you want to join?
+!why         Why do you want to join? What makes us the guild for you? What do you expect from us?
 !xp          What experience you have so far?
 ```
 
