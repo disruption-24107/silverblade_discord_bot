@@ -1,6 +1,7 @@
 import discord
 import sys
 import os
+import asyncio
 from discord.ext import commands
 from datetime import datetime
 
@@ -138,6 +139,11 @@ async def done(ctx):
         guild = bot.get_guild(238705194244898817)
         role = discord.utils.get(guild.roles, name='Applicant')
         await guild.get_member(ctx.author.id).add_roles(role)
+        
+        # Wait for the role to be applied and then post
+        # This ensures the applicant will have the new permission
+        # and can therefore see the message history
+        await asyncio.sleep(5)
 
         applicant_map["done"] = datetime.now().strftime("%D")
 
