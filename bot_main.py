@@ -105,9 +105,10 @@ async def done(ctx):
         if "done" in applicant(applicants, ctx.author):
             await ctx.author.send("""You've already applied, check #applications to see your full application.""")
             return
-
-        role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Applicant')
-        ctx.author.add_roles(role)
+        
+        guild = bot.get_guild(238705194244898817)
+        role = discord.utils.get(guild.roles, name='Applicant')
+        guild.get_member(ctx.author).add_roles(role)
 
         applicant(applicants, ctx.author)["done"] = datetime.now().strftime("%D")
 
