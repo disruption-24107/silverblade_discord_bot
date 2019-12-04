@@ -209,7 +209,7 @@ In order to become a raider, you should submit an application through this site.
 The standard trial process lasts 2 weeks (total of 4 raids). During this time, we want you to demonstrate that you can learn the fights, play your character, and otherwise adhere to all the other rules that apply to raiders. It may extend, however, if uncertainty arises, but usually it won't.
 In other words: As a Trial/Initiate consider yourself a raider, but without the perks. After 2 weeks, you'll be promoted assuming you pass and the perks will be yours.
 
-Failing the trial process gets you demoted to Social.
+If, in the unlikely event you, or the raid team decide staying as a raider isn't appropriate, we'll offer you a social rank :-)
 """)
 
 
