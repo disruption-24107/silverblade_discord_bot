@@ -5,6 +5,7 @@ from discord.ext import commands
 from datetime import datetime
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
+bot.remove_command('help')
 
 applicants = {}
 
@@ -41,14 +42,16 @@ async def application(ctx):
 We're going to need some information from you, but make sure you've read the **!rules** first.
 
 Once you've read the rules, please enter each of the commands below, replacing the relevant text areas with links to your character information pages:
+
+**Please send each command below as a separate direct message to the bot.**
+
+For example, `!armory https://worldofwarcraft.com/en-gb/character/eu/frostmane/christopher`
+
 ```
 !armory      <Type the link to your armory profile>
 !raiderio    <Type the link to your raider.io profile>
 !logs        <Type the link to your best logs>
 ```
-**Please send each item as a separate message.**
-
-For example, `!armory https://worldofwarcraft.com/en-gb/character/eu/frostmane/christopher`
 
 It would be great if you could also tell us a bit more about you by filling in the required information.
 ```
@@ -100,7 +103,7 @@ async def logs(ctx):
             return
         
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for providing your logs!""")
+        await ctx.author.send("""Thank you for providing your logs.""")
 
 
 @bot.command()
@@ -112,7 +115,7 @@ async def why(ctx):
             return
         
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for telling us why you want to join!""")
+        await ctx.author.send("""Thank you for telling us why you want to join.""")
 
 
 @bot.command()
@@ -124,7 +127,7 @@ async def xp(ctx):
             return
         
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for telling us your experience/history!""")
+        await ctx.author.send("""Thank you for telling us your experience/history. If you've provided everything then you can type `!done` to submit your application.""")
 
 
 @bot.command()
