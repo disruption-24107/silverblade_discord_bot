@@ -40,13 +40,17 @@ async def application(ctx):
 
 We're going to need some information from you, but make sure you've read the **!rules** first.
 
-Once you've read the rules, please copy and past the messages below, into this chat, replacing the relevant text areas with links to your character information pages:
+Once you've read the rules, please enter each of the commands below, replacing the relevant text areas with links to your character information pages:
 ```
-!armory      <Type the link to your armory profile (repeatable for each alt if you have alts)>
+!armory      <Type the link to your armory profile>
 !raiderio    <Type the link to your raider.io profile>
 !logs        <Type the link to your best logs>
 ```
-It would be great if you could also tell us a bit more about you by copy and pasting the messages below and filling in the required information.
+**Please send each item as a separate message.**
+
+For example, `!armory https://worldofwarcraft.com/en-gb/character/eu/frostmane/christopher`
+
+It would be great if you could also tell us a bit more about you by filling in the required information.
 ```
 !why         <Type why do you want to join? What makes us the guild for you? What do you expect from us?>
 !xp          <Type what raiding experience you have so far?>
