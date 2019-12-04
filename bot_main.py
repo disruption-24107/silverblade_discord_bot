@@ -5,9 +5,11 @@ from discord.ext import commands
 bot = commands.Bot(command_prefix='!')
 
 @bot.command()
-@commands.guild_only()
+@commands.cooldown(1, 180, commands.BucketType.user)
 async def application(ctx):
-    await ctx.send("I'll send you the details now, please check your private messages!")
+    if not isinstance(ctx.channel, discord.DMChannel):
+        await ctx.send("I'll send you the details now, please check your private messages!")
+
     await ctx.author.send("""\
 *Thanks for your interest in applying!*
 
@@ -25,28 +27,75 @@ It would be great if you could also tell us:
 !xp          What experience you have so far?
 ```
   
-Once you've provided all of this, I'll have someone from our recruitment team get back to you really soon! :-)
-
+Once you've provided all of this tell me you're `!done`, I'll have someone from our recruitment team get back to you really soon! :-)
 """)
+
+applicants = []
+
+@bot.command()
+async def done(ctx):
+    if isinstance(ctx.channel, discord.DMChannel):
+        if ctx.author in applicants:
+            await ctx.author.send("""You've already applied, check #applications to see your full application.""")
+            return
+
+        applicants.append(ctx.author)
+
+        await ctx.author.send("""Great! I'll post your details in #applications, head over there to check the status""")
+        channel = bot.get_channel(651182846207197185)
+        await channel.send("""**Application**
+    
+*Name*: {0}
+*Armory*: http://not-implemented/
+*RaiderIO*: http://not-implemented/
+*Logs*: http://not-implemented/
+
+*Why the applicant wants to join*
+
+Not implemented
+
+*Experience so far*
+
+Not implemented
+
+*Status*
+
+Accepted
+** **
+""".format(ctx.author))
 
 @bot.command(pass_context=True)
 @commands.has_any_role('Hand', 'Crusader', 'Sentinel', 'High Hand', 'Councillor')
 async def friend(ctx):
-    try:
-        role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Friend')
-        member = ctx.message.mentions[0]
+    role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Friend')
+    member = ctx.message.mentions[0]
 
-        if role in member.roles:
-            await ctx.send("That person is already a friend of mine!")
-        else:
-            await member.add_roles(role)
-            await ctx.send("A friend of yours is a friend of mine!")
-    except:
-        await ctx.send("I couldn't do that right now, sorry!")
+    if role in member.roles:
+        await ctx.send("That person is already a friend of mine!")
+    else:
+        await member.add_roles(role)
+        await ctx.send("A friend of yours is a friend of mine!")
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 180, commands.BucketType.user)
 async def rules(ctx):
+    await ctx.send("""
+Our rules can be navigated with a menu based system. Please see the following options:
+
+```
+!ranks       - Types of ranks in the guild.
+!times       - When Silverblade raids.
+!prep        - Being prepared for raiding.
+!addons      - We have a set of **mandatory addons**
+!application - Becoming a raider is application based.
+!alts        - We welcome alts in Silverblade.
+!friend      - We allow our guild members to invite friends.
+```
+""")
+
+@bot.command(pass_context=True)
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def ranks(ctx):
     await ctx.send("""
 There are a few ground rules you must follow in Silverblade depending on your rank.
 
@@ -61,10 +110,6 @@ There are a few ground rules you must follow in Silverblade depending on your ra
  Sentinel    - Support rank for people who cannot meet our schedule.
  Hand        - The main social rank
 ```
-""")
-
-    await ctx.send("""
-** **
 **Being a social**
 
 Socials of all stripes are very welcome. They're the friends of other socials and raiders. They're here for the social aspect and the community. There are no demands to their skill. There are a few rules on general behaviour in the guild and falling afoul of those will get you removed. See the bottom of the post for details.
@@ -76,12 +121,26 @@ In order to become a raider, you should submit an application through this site.
 The standard trial process lasts 2 weeks (total of 4 raids). During this time, we want you to demonstrate that you can learn the fights, play your character, and otherwise adhere to all the other rules that apply to raiders. It may extend, however, if uncertainty arises, but usually it won't.
 In other words: As a Trial/Initiate consider yourself a raider, but without the perks. After 2 weeks, you'll be promoted assuming you pass and the perks will be yours.
 
-Failing the trial process gets you demoted to Social.""")
+Failing the trial process gets you demoted to Social.
+""")
 
+@bot.command(pass_context=True)
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def alts(ctx):
     await ctx.send("""
-** **
-**Knowledge**
+We expect you to turn up to raids with you main character in your main spec by default. In some cases, such as when a boss calls for a specific comp, we may discuss asking you to go off-spec or even to an alt.
 
+While it is not required to roll offspecs or alts and getting them ready for raiding, doing so will result in a lot of appreciation, higher priority when it becomes time to hand out off-spec items (which may also help outside the raid), and of course personal loot upgrades will go to an alt.
+
+We will not invite your alt just because you feel like playing it on that particular day. You must provide a good reason why it will make it easier to defeat the boss using the alt.
+
+This is primarily because of forced personal loot, because we don't want items spreading across many characters being played by one person. We prefer more loot to go to one character for improved output, leading to improved progress.
+""")
+
+@bot.command(pass_context=True)
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def prep(ctx):
+    await ctx.send("""
 We expect you to have read the strategies posted on Discord before the raid. Be ready to deal with any special assignment you may get as a result of your role on the given fight.
 
 Maintain your knowledge of the game and your spec especially. This means a combination of continuous play and practice in various modes of play (M+, lower difficulty raids, PvP, etc.), and using class resources and guides, such as the Discord for your class or continuously updated guides found across the web.
@@ -95,17 +154,50 @@ Upgrade your gear by participating in WoW's many activities outside raiding to u
 
     await ctx.send("""
 ** **
-**Alts**
+**Preparation**
 
-We expect you to turn up to raids with you main character in your main spec by default. In some cases, such as when a boss calls for a specific comp, we may discuss asking you to go off-spec or even to an alt.
+Have all types of consumables ready for every fight BEFORE joining the raid.
 
-While it is not required to roll offspecs or alts and getting them ready for raiding, doing so will result in a lot of appreciation, higher priority when it becomes time to hand out off-spec items (which may also help outside the raid), and of course personal loot upgrades will go to an alt.
+That means:
+- Food, the best type and with the correct stat. Food is used on every pull besides literally the first few "We have no idea what we're doing and wil lwipe to that" pulls.
+- Flask, of the best type. Flasks are always expected.
+- Potions - 2x per attempted pull
 
-We will not invite your alt just because you feel like playing it on that particular day. You must provide a good reason why it will make it easier to defeat the boss using the alt.
-
-This is primarily because of forced personal loot, because we don't want items spreading across many characters being played by one person. We prefer more loot to go to one character for improved output, leading to improved progress.
+Vantus runes may be provided when needed. If feast is the best type of food at the time, feasts may also be provided, but you should still have food so we don't have to pop an entire table for one guy.
 """)
 
+@bot.command(pass_context=True)
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def addons(ctx):
+    await ctx.send("""
+These addons are mandatory:
+
+1. Deadly Boss Mods OR BigWigs
+2. RCLootCouncil
+3. Exorsus Raid Tools - Enable Note in /ert -> Note.
+4. WeakAuras
+
+Keep them updated!
+""")
+
+@bot.command(pass_context=True)
+@commands.cooldown(1, 180, commands.BucketType.user)
+async def times(ctx):
+    await ctx.send("""
+Our raid days are **Thursday** 20:30-23:30 and **Sunday** 20:30-23:30 server time every week. Occasionally the raid time may extend for a few more pulls if we feel we're close to a kill, but never past midnight.   
+
+We expect our raiders to be able to attend both days unless signing the calendar to decline on occasional circumstances.
+
+**Important**
+
+Try to be online 15 minutes before raid. Be on no later than the start and be ready to accept summon immediately.
+
+*Sign up on guild calendar!*
+
+- If you can come and will be there on time.
+- If you can come but will be late. Write in the Discord #absences channel
+- If you cannot come at all. Write in the Discord #absences channel
+""")
 
 @bot.command(pass_context=True)
 async def about(ctx):
