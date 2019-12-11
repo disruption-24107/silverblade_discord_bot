@@ -6,6 +6,7 @@ from datetime import datetime
 from pathlib import Path
 
 ADDONS_TEXT = Path("resources/addons.txt").read_text()
+ABOUT_TEXT = Path("resources/about.txt").read_text()
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
@@ -403,17 +404,7 @@ Try to be online 15 minutes before raid. Be on no later than the start and be re
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def about(ctx):
-    await ctx.send("""
-Silverblade is a World of Warcraft **mythic** raiding guild, formed in 2016 after a number of casual but dedicated players wanted to spend a few nights per week raiding together. We've been steadily growing our list of cutting edge achievements from Xavius in Emerald Nightmare, to Argus in Antorus, G'huun in Uldir and Jaina Proudmore in Battle of Dazar'alor.
-
-We're currently progressing Azshara's Eternal Palace and have killed 7/8 bosses on mythic difficulty.
-
-We raid every **Sunday** and **Thursday** from **20:30** game time and about 3-3½ hours. There are regular mythic+ runs, rated battleground events and casual heroic raids after the initial progression run.
-
-If raiding with us is something you're interested in, hit the apply button and tell us why! We're always happy to read through applications! You can also contact any one of us in-game, and we'll make sure your request is directed to the right people so we can meet!
-
-Please take a look at the `!rules` before applying
-""")
+    await ctx.send(ABOUT_TEXT)
 
 
 bot.run(os.getenv('DISCORD_TOKEN'))
