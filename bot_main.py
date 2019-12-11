@@ -237,6 +237,11 @@ async def accept(ctx):
 async def reject(ctx):
     role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Applicant')
     member = ctx.message.mentions[0]
+    
+    if role not in member.roles:
+        await ctx.send("Uh oh, {0} isn't an applicant.".format(member))
+        return
+    
     await ctx.send("Alright, I'll decline {0} and remove their applicant role =(".format(member))
     
     reason = "Please check back in the future and we will happily review again."
