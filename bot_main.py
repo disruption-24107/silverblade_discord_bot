@@ -3,6 +3,9 @@ import sys
 import os
 from discord.ext import commands
 from datetime import datetime
+from pathlib import Path
+
+ADDONS_TEXT = Path("resources/addons.txt").read_text()
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
@@ -374,18 +377,9 @@ Vantus runes may be provided when needed. If feast is the best type of food at t
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def addons(ctx):
-    await ctx.send("""
-These add-ons are mandatory:
+    await ctx.send(ADDONS_TEXT)
 
-1. Deadly Boss Mods OR BigWigs
-2. RCLootCouncil
-3. Exorsus Raid Tools - Enable Note in /ert -> Note.
-4. WeakAuras
-
-Please keep them updated!
-""")
-
-
+    
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def times(ctx):
