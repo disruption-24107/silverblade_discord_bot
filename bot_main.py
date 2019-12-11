@@ -1,5 +1,4 @@
 import discord
-import sys
 import os
 from discord.ext import commands
 from datetime import datetime
@@ -15,6 +14,11 @@ APPLICATION_PUBLIC_TEXT = Path("resources/application_public.txt").read_text()
 APPLICATION_ACCEPTED_TEXT = Path("resources/application_accepted.txt").read_text()
 APPLICATION_REJECTED_TEXT = Path("resources/application_rejected.txt").read_text()
 APPLICATION_DEFAULT_REJECTION_REASON_TEXT = Path("resources/application_default_rejection_reason.txt").read_text()
+APPLICATION_PROVIDED_XP_TEXT = Path("resources/application_provided_xp.txt").read_text()
+APPLICATION_PROVIDED_WHY_TEXT = Path("resources/application_provided_why.txt").read_text()
+APPLICATION_PROVIDED_LOGS_TEXT = Path("resources/application_provided_logs.txt").read_text()
+APPLICATION_PROVIDED_ARMORY_TEXT = Path("resources/application_provided_armory.txt").read_text()
+APPLICATION_PROVIDED_RAIDERIO_TEXT = Path("resources/application_provided_raiderio.txt").read_text()
 ALTS_TEXT = Path("resources/alts.txt").read_text()
 PREPARATION_1_TEXT = Path("resources/preparation.1.txt").read_text()
 PREPARATION_2_TEXT = Path("resources/preparation.2.txt").read_text()
@@ -57,7 +61,7 @@ async def armory(ctx):
             return
         
         applicant(applicants, ctx.author)["armory"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for providing your armory information!""")
+        await ctx.author.send(APPLICATION_PROVIDED_ARMORY_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -68,7 +72,7 @@ async def raiderio(ctx):
             return
         
         applicant(applicants, ctx.author)["raiderio"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for providing your RaiderIO information!""")
+        await ctx.author.send(APPLICATION_PROVIDED_RAIDERIO_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -79,7 +83,7 @@ async def logs(ctx):
             return
         
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for providing your logs.""")
+        await ctx.author.send(APPLICATION_PROVIDED_LOGS_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -90,7 +94,7 @@ async def why(ctx):
             return
         
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for telling us why you want to join.""")
+        await ctx.author.send(APPLICATION_PROVIDED_WHY_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -101,7 +105,7 @@ async def xp(ctx):
             return
         
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send("""Thank you for telling us your experience/history. If you've provided everything then you can type `!done` to submit your application.""")
+        await ctx.author.send(APPLICATION_PROVIDED_XP_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 5, commands.BucketType.user)
