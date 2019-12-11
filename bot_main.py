@@ -239,21 +239,19 @@ async def reject(ctx):
     member = ctx.message.mentions[0]
     await ctx.send("Alright, I'll decline {0} and remove their applicant role =(".format(member))
     
-    reason = "Unfortunately we're going to decline this for now, but please check back in the future."
+    reason = "Please check back in the future and we will happily review again."
     if len(ctx.message.content.strip().split(" ")) >= 3:
         reason = ctx.message.content.split(None, 2)[2]
 
     await member.remove_roles(role)
-    await member.send("""**Application**
+    await member.send("""Hey {0},
+Unfortunately we're not going to be progressing forward with your application to join Silverblade at this time.
 
-    **Name**: {0}
+{1}
 
-    **Status**
-    Rejected
-    
-    **Reason**
-    {1}
-   
+Kind Regards,
+
+-Silverblade Council 
     ** **
     """.format(member, reason))
     
