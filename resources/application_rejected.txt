@@ -1,0 +1,10 @@
+Hey {0},
+
+Unfortunately we're not going to be progressing forward with your application to join Silverblade at this time.
+
+{1}
+
+Kind Regards,
+
+- Silverblade Council 
+** **
