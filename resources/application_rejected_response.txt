@@ -1,0 +1,1 @@
+Alright, I'll decline {0} and remove their applicant role.
