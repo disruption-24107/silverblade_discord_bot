@@ -1,0 +1,9 @@
+
+These add-ons are mandatory:
+
+1. Deadly Boss Mods OR BigWigs
+2. RCLootCouncil
+3. Exorsus Raid Tools - Enable Note in /ert -> Note.
+4. WeakAuras
+
+Please keep them updated!
