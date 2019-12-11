@@ -211,6 +211,9 @@ async def accept(ctx):
     role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Initiate')
     member = ctx.message.mentions[0]
     channel = bot.get_channel(651719224275894272)
+    
+    member = ctx.message.mentions[0]
+    await ctx.send("Alright, I'll accept {0} and make them an initiate =)".format(member))
 
     await member.add_roles(role)
     await channel.send("""**Application** ({0})
@@ -219,6 +222,12 @@ async def accept(ctx):
 
     **Status**
     Accepted
+    
+    **Information**
+    We've assigned you the 'Initiate' role which you'll have for 4 weeks so that both you and the guild can see if we're a good fit together.
+    
+    You can type `!roles` to understand more about the roles in the guild.
+    
     ** **
     """.format(datetime.now().strftime("%D"), member))
 
@@ -228,6 +237,7 @@ async def accept(ctx):
 async def reject(ctx):
     role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Applicant')
     member = ctx.message.mentions[0]
+    await ctx.send("Alright, I'll decline {0} and remove their applicant role =(".format(member))
     
     reason = "Unfortunately we're going to decline this for now, but please check back in the future."
     if len(ctx.message.content.strip().split(" ")) >= 3:
