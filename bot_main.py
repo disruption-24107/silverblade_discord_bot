@@ -229,7 +229,7 @@ async def reject(ctx):
     role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Applicant')
     member = ctx.message.mentions[0]
     
-    def reason = "Unfortunately we're going to decline this for now, but please check back in the future."
+    reason = "Unfortunately we're going to decline this for now, but please check back in the future."
     if len(ctx.message.content.strip().split(" ")) >= 3:
         reason = ctx.message.content.split(None, 2)[2]
 
