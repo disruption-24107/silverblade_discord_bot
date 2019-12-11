@@ -229,7 +229,7 @@ async def accept(ctx):
     You can type `!roles` to understand more about the roles in the guild.
     
     ** **
-    """.format(datetime.now().strftime("%D"), member))
+    """.format(datetime.now().strftime("%D"), member.mention()))
 
 @bot.command(pass_context=True)
 @commands.has_any_role('Councillor')
