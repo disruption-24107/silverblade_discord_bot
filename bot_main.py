@@ -11,9 +11,12 @@ RULES_TEXT = Path("resources/rules.txt").read_text()
 RANKS_TEXT = Path("resources/ranks.txt").read_text()
 TIMES_TEXT = Path("resources/times.txt").read_text()
 APPLICATION_TEXT = Path("resources/application.txt").read_text()
+APPLICATION_PUBLIC_TEXT = Path("resources/application_public.txt").read_text()
 ALTS_TEXT = Path("resources/alts.txt").read_text()
 PREPARATION_1_TEXT = Path("resources/preparation.1.txt").read_text()
 PREPARATION_2_TEXT = Path("resources/preparation.2.txt").read_text()
+ON_MEMBER_JOIN_1_TEXT = Path("resources/on_member_join.1.txt").read_text()
+ON_MEMBER_JOIN_2_TEXT = Path("resources/on_member_join.2.txt").read_text()
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
@@ -22,30 +25,14 @@ applicants = {}
 
 @bot.event
 async def on_member_join(member):
-    await member.send("""
-Silverblade is a World of Warcraft mythic raiding guild, formed in 2016 after a number of casual but dedicated players wanted to spend a few nights per week raiding together. We've been steadily growing our list of cutting edge achievements from Xavius in Emerald Nightmare, to Argus in Antorus, G'huun in Uldir and Jaina Proudmore in Battle of Dazar'alor.
-
-We're currently progressing Azshara's Eternal Palace and have killed 7/8 bosses on mythic difficulty.
-
-We raid every Sunday and Thursday from 20:30 game time and about 3-3½ hours. There are regular mythic+ runs, rated battleground events and casual heroic raids after the initial progression run.
-
-If raiding with us is something you're interested in, hit the apply button and tell us why! We're always happy to read through applications! You can also contact any one of us in-game, and we'll make sure your request is directed to the right people so we can meet!
-
-Please take a look at the !rules before applying""")
-
-    await member.send("""
-** **
-If you are looking to make an application, please type `!application` and our friendly bot will send you everything you need to know.
-
-If you are a friend of the guild, just ask your friend to type `!friend @you` in one of the channels they have access to.
-""")
-
+    await member.send(ON_MEMBER_JOIN_1_TEXT)
+    await member.send(ON_MEMBER_JOIN_2_TEXT)
 
 @bot.command()
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def application(ctx):
     if not isinstance(ctx.channel, discord.DMChannel):
-        await ctx.send("I'll send you the details now, please check your private messages!")
+        await ctx.send(APPLICATION_PUBLIC_TEXT)
         
     await ctx.author.send(APPLICATION_TEXT)
 
@@ -186,7 +173,6 @@ async def friend(ctx):
     else:
         await member.add_roles(role)
         await ctx.send("A friend of yours is a friend of mine!")
-
 
 @bot.command(pass_context=True)
 @commands.has_any_role('Councillor')
