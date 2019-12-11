@@ -289,6 +289,11 @@ async def menu(ctx):
 async def help(ctx):
     await rules.invoke(ctx)
 
+@bot.command(pass_context=True)
+@commands.cooldown(1, 5, commands.BucketType.user)
+async def roles(ctx):
+    await ranks.invoke(ctx)
+
     
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
