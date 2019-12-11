@@ -222,6 +222,30 @@ async def accept(ctx):
     ** **
     """.format(datetime.now().strftime("%D"), member))
 
+@bot.command(pass_context=True)
+@commands.has_any_role('Councillor')
+@commands.cooldown(2, 5, commands.BucketType.user)
+async def reject(ctx):
+    role = discord.utils.get(bot.get_guild(238705194244898817).roles, name='Applicant')
+    member = ctx.message.mentions[0]
+    
+    def reason = "Unfortunately we're going to decline this for now, but please check back in the future."
+    if len(ctx.message.content.strip().split(" ")) >= 3:
+        reason = ctx.message.content.split(None, 2)[2]
+
+    await member.remove_roles(role)
+    await member.send("""**Application**
+
+    **Name**: {0}
+
+    **Status**
+    Rejected
+    
+    **Reason**
+    {1}
+   
+    ** **
+    """.format(member, reason))
     
 @bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
