@@ -1,0 +1,16 @@
+**Application** ({0})
+
+**Name**: {1}
+**Armory**: {2}
+**RaiderIO**: {3}
+**Logs**: {4}
+
+**Why the applicant wants to join**
+{5}
+
+**Experience so far**
+{6}
+
+**Status**
+Pending
+** **
