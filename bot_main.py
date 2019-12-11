@@ -10,6 +10,10 @@ ABOUT_TEXT = Path("resources/about.txt").read_text()
 RULES_TEXT = Path("resources/rules.txt").read_text()
 RANKS_TEXT = Path("resources/ranks.txt").read_text()
 TIMES_TEXT = Path("resources/times.txt").read_text()
+APPLICATION_TEXT = Path("resources/application.txt").read_text()
+ALTS_TEXT = Path("resources/alts.txt").read_text()
+PREPARATION_1_TEXT = Path("resources/preparation.1.txt").read_text()
+PREPARATION_2_TEXT = Path("resources/preparation.2.txt").read_text()
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
@@ -42,40 +46,14 @@ If you are a friend of the guild, just ask your friend to type `!friend @you` in
 async def application(ctx):
     if not isinstance(ctx.channel, discord.DMChannel):
         await ctx.send("I'll send you the details now, please check your private messages!")
-
-    await ctx.author.send("""\
-*Thanks for your interest in applying!*
-
-We're going to need some information from you, but make sure you've read the **!rules** first.
-
-Once you've read the rules, please enter each of the commands below, providing links to your character information web pages:
-
-**Please send each command below as a separate direct message to the bot.**
-
-For example, `!armory https://worldofwarcraft.com/en-gb/character/eu/frostmane/christopher`
-
-```
-!armory      <Type the link to your armory profile>
-!raiderio    <Type the link to your raider.io profile>
-!logs        <Type the link to your best logs>
-```
-
-It would be great if you could also tell us a bit more about you by filling in the required information.
-```
-!why         <Type why do you want to join? What makes us the guild for you? What do you expect from us?>
-!xp          <Type what raiding experience you have so far?>
-```
-
-Once you've provided all of this tell me you're `!done`, I'll have someone from our recruitment team get back to you really soon! :-)
-""")
-
+        
+    await ctx.author.send(APPLICATION_TEXT)
 
 def applicant(applicant_map, member):
     if member not in applicant_map:
         applicant_map[member] = {}
-
+        
     return applicant_map[member]
-
 
 @bot.command()
 @commands.cooldown(1, 1, commands.BucketType.user)
@@ -141,7 +119,6 @@ async def xp(ctx):
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def done(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
-
         applicant_map = applicant(applicants, ctx.author)
 
         if "done" in applicant_map:
@@ -284,58 +261,25 @@ async def help(ctx):
     await rules.invoke(ctx)
 
 @bot.command(pass_context=True)
+@commands.cooldown(1, 30, commands.BucketType.user)
+async def ranks(ctx):
+    await ctx.send(RANKS_TEXT)
+
+@bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def roles(ctx):
     await ranks.invoke(ctx)
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
-async def ranks(ctx):
-    await ctx.send(RANKS_TEXT)
-
-
-@bot.command(pass_context=True)
-@commands.cooldown(1, 30, commands.BucketType.user)
 async def alts(ctx):
-    await ctx.send("""
-We expect you to turn up to raids with you main character in your main spec by default. In some cases, such as when a boss calls for a specific comp, we may discuss asking you to go off-spec or even to an alt.
-
-While it is not required to roll offspecs or alts and getting them ready for raiding, doing so will result in a lot of appreciation, higher priority when it becomes time to hand out off-spec items (which may also help outside the raid), and of course personal loot upgrades will go to an alt.
-
-We will not invite your alt just because you feel like playing it on that particular day. You must provide a good reason why it will make it easier to defeat the boss using the alt.
-
-This is primarily because of forced personal loot, because we don't want items spreading across many characters being played by one person. We prefer more loot to go to one character for improved output, leading to improved progress.
-""")
-
+    await ctx.send(ALTS_TEXT)
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def prep(ctx):
-    await ctx.send("""
-We expect you to have read the strategies posted on Discord before the raid. Be ready to deal with any special assignment you may get as a result of your role on the given fight.
-
-Maintain your knowledge of the game and your spec especially. This means a combination of continuous play and practice in various modes of play (M+, lower difficulty raids, PvP, etc.), and using class resources and guides, such as the Discord for your class or continuously updated guides found across the web.
-
-We do not merely expect you to use one of these tools, but to use several in combination to form a strong understand of the class and spec you play.
-
-Furthermore, we expect you to be continuously simming your character with Simcraft, Ask Mr. Robot, or a similar tool in order to always know whether or not a particular item is an upgrade.
-
-Upgrade your gear by participating in WoW's many activities outside raiding to upgrade your gear. Frequently the guild will set particular demands on how prepared you must be to enter a raid with the team. Make sure you are familiar with and meet those goals.
-""")
-
-    await ctx.send("""
-** **
-**Preparation**
-
-Have all types of consumables ready for every fight BEFORE joining the raid.
-
-That means:
-- Food, the best type and with the correct stat. Food is used on every pull besides literally the first few "We have no idea what we're doing and wil lwipe to that" pulls.
-- Flask, of the best type. Flasks are always expected.
-- Potions - 2x per attempted pull
-
-Vantus runes may be provided when needed. If feast is the best type of food at the time, feasts may also be provided, but you should still have food so we don't have to pop an entire table for one guy.
-""")
+    await ctx.send(PREPARATION_1_TEXT)
+    await ctx.send(PREPARATION_2_TEXT)
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
