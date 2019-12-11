@@ -1,0 +1,5 @@
+
+** **
+If you are looking to make an application, please type `!application` and our friendly bot will send you everything you need to know.
+
+If you are a friend of the guild, just ask your friend to type `!friend @you` in one of the channels they have access to.
