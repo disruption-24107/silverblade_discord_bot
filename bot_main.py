@@ -245,6 +245,7 @@ async def reject(ctx):
 
     await member.remove_roles(role)
     await member.send("""Hey {0},
+
 Unfortunately we're not going to be progressing forward with your application to join Silverblade at this time.
 
 {1}
