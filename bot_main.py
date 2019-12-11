@@ -7,6 +7,9 @@ from pathlib import Path
 
 ADDONS_TEXT = Path("resources/addons.txt").read_text()
 ABOUT_TEXT = Path("resources/about.txt").read_text()
+RULES_TEXT = Path("resources/rules.txt").read_text()
+RANKS_TEXT = Path("resources/ranks.txt").read_text()
+TIMES_TEXT = Path("resources/times.txt").read_text()
 
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 bot.remove_command('help')
@@ -268,21 +271,8 @@ Kind Regards,
 @bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def rules(ctx):
-    await ctx.author.send("""
-Our rules can be navigated with a menu based system. Our rules can be navigated with a menu based system. Simply type the `!command` you want to view into this message chain.
-
-```
-!ranks       - Types of ranks in the guild.
-!times       - When Silverblade raids.
-!prep        - Being prepared for raiding.
-!addons      - We have a set of mandatory addons
-!application - Becoming a raider is application based.
-!alts        - We welcome alts in Silverblade.
-!friend      - We allow our guild members to invite friends.
-```
-""")
-
-
+    await ctx.author.send(RULES_TEXT)
+    
 @bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def menu(ctx):
@@ -298,37 +288,10 @@ async def help(ctx):
 async def roles(ctx):
     await ranks.invoke(ctx)
 
-    
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def ranks(ctx):
-    await ctx.send("""
-There are a few ground rules you must follow in Silverblade depending on your rank.
-
-**Ranks**
-
-```
- Councillor  - Guild leader and Officer rank.leading.
- High Hand   - A non-raiding officer.
- Crusader    - The main raiding rank.
- Avatar      - The alts of Crusaders.
- Initiate    - People who are in the process of becoming a Crusader.
- Sentinel    - Support rank for people who cannot meet our schedule.
- Hand        - The main social rank
-```
-**Being a social**
-
-Socials of all stripes are very welcome. They're the friends of other socials and raiders. They're here for the social aspect and the community. There are no demands to their skill. There are a few rules on general behaviour in the guild and falling afoul of those will get you removed. See the bottom of the post for details.
-
-**Becoming a Raider**
-
-In order to become a raider, you should submit an application through this site. Alternatively, contact one of the officers in-game, and we can arrange a meeting.
-
-The standard trial process lasts 2 weeks (total of 4 raids). During this time, we want you to demonstrate that you can learn the fights, play your character, and otherwise adhere to all the other rules that apply to raiders. It may extend, however, if uncertainty arises, but usually it won't.
-In other words: As a Trial/Initiate consider yourself a raider, but without the perks. After 2 weeks, you'll be promoted assuming you pass and the perks will be yours.
-
-If, in the unlikely event you, or the raid team decide staying as a raider isn't appropriate, we'll offer you a social rank :-)
-""")
+    await ctx.send(RANKS_TEXT)
 
 
 @bot.command(pass_context=True)
@@ -374,37 +337,19 @@ That means:
 Vantus runes may be provided when needed. If feast is the best type of food at the time, feasts may also be provided, but you should still have food so we don't have to pop an entire table for one guy.
 """)
 
-
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def addons(ctx):
     await ctx.send(ADDONS_TEXT)
 
-    
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def times(ctx):
-    await ctx.send("""
-Our raid days are **Thursday** 20:30-23:30 and **Sunday** 20:30-23:30 server time every week. Occasionally the raid time may extend for a few more pulls if we feel we're close to a kill, but never past midnight.   
-
-We expect our raiders to be able to attend both days unless signing the calendar to decline on occasional circumstances.
-
-**Important**
-
-Try to be online 15 minutes before raid. Be on no later than the start and be ready to accept summon immediately.
-
-*Sign up on guild calendar!*
-
-- If you can come and will be there on time.
-- If you can come but will be late. Write in the Discord #absences channel
-- If you cannot come at all. Write in the Discord #absences channel
-""")
-
+    await ctx.send(TIMES_TEXT)
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def about(ctx):
     await ctx.send(ABOUT_TEXT)
-
 
 bot.run(os.getenv('DISCORD_TOKEN'))
