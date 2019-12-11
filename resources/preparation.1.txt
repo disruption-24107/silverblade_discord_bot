@@ -1,12 +1,10 @@
 
-** **
-**Preparation**
+We expect you to have read the strategies posted on Discord before the raid. Be ready to deal with any special assignment you may get as a result of your role on the given fight.
 
-Have all types of consumables ready for every fight BEFORE joining the raid.
+Maintain your knowledge of the game and your spec especially. This means a combination of continuous play and practice in various modes of play (M+, lower difficulty raids, PvP, etc.), and using class resources and guides, such as the Discord for your class or continuously updated guides found across the web.
 
-That means:
-- Food, the best type and with the correct stat. Food is used on every pull besides literally the first few "We have no idea what we're doing and wil lwipe to that" pulls.
-- Flask, of the best type. Flasks are always expected.
-- Potions - 2x per attempted pull
+We do not merely expect you to use one of these tools, but to use several in combination to form a strong understand of the class and spec you play.
 
-Vantus runes may be provided when needed. If feast is the best type of food at the time, feasts may also be provided, but you should still have food so we don't have to pop an entire table for one guy.
+Furthermore, we expect you to be continuously simming your character with Simcraft, Ask Mr. Robot, or a similar tool in order to always know whether or not a particular item is an upgrade.
+
+Upgrade your gear by participating in WoW's many activities outside raiding to upgrade your gear. Frequently the guild will set particular demands on how prepared you must be to enter a raid with the team. Make sure you are familiar with and meet those goals.
