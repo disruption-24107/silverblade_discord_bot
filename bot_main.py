@@ -109,7 +109,7 @@ async def done(ctx):
         applicant_map = applicant(applicants, ctx.author)
 
         if "done" in applicant_map:
-            await ctx.author.send("""You've already applied, check #applications to see your full application.""")
+            await ctx.author.send(APPLICATION_SUBMIT_ALREADY)
             return
 
         if "armory" not in applicant_map:
@@ -117,19 +117,19 @@ async def done(ctx):
             return
 
         if "raiderio" not in applicant_map:
-            await ctx.author.send("""You're missing your RaiderIO information (use `!raiderio <URL>` here to provide it). If you don't want to provide this, just say N/A""")
+            await ctx.author.send(APPLICATION_SUBMIT_MISSING_RAIDERIO)
             return
 
         if "logs" not in applicant_map:
-            await ctx.author.send("""You're missing your logs (use `!logs <URL>` here to provide it). If you don't want to provide this, just say N/A""")
+            await ctx.author.send(APPLICATION_SUBMIT_MISSING_LOGS)
             return
 
         if "why" not in applicant_map:
-            await ctx.author.send("""You haven't told us why you want to join (use `!why <reason>` here to provide it). If you don't want to provide this, just say N/A""")
+            await ctx.author.send(APPLICATION_SUBMIT_MISSING_WHY)
             return
 
         if "xp" not in applicant_map:
-            await ctx.author.send("""You haven't told us about your raiding history (use `!xp <history>` here to provide it). If you don't want to provide this, just say N/A""")
+            await ctx.author.send(APPLICATION_SUBMIT_MISSING_XP)
             return
 
         guild = bot.get_guild(GUILD)
