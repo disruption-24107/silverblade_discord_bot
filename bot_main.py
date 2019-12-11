@@ -252,9 +252,9 @@ Unfortunately we're not going to be progressing forward with your application to
 
 Kind Regards,
 
--Silverblade Council 
-    ** **
-    """.format(member, reason))
+- Silverblade Council 
+** **
+""".format(member, reason))
     
 @bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
