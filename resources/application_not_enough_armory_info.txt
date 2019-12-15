@@ -1,0 +1,1 @@
+You need to type `!armory <the link to your armory profile here>`.

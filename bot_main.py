@@ -5,6 +5,7 @@ from discord.ext import commands
 from datetime import datetime
 from bot_text_resources import *
 
+
 class GuildRoles:
     ROLE_FRIEND = "Friend"
     ROLE_INITIATE = "Initiate"
@@ -22,17 +23,17 @@ applicants = {}
 
 @bot.event
 async def on_member_join(member):
-    await member.send(ON_MEMBER_JOIN_1_TEXT)
-    await member.send(ON_MEMBER_JOIN_2_TEXT)
+    await member.send(ON_MEMBER_JOIN_1)
+    await member.send(ON_MEMBER_JOIN_2)
 
 
 @bot.command()
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def application(ctx):
     if not isinstance(ctx.channel, discord.DMChannel):
-        await ctx.send(APPLICATION_PUBLIC_TEXT)
+        await ctx.send(APPLICATION_PUBLIC)
         
-    await ctx.author.send(APPLICATION_TEXT)
+    await ctx.author.send(APPLICATION)
 
 
 def applicant(applicant_map, member):
@@ -47,11 +48,11 @@ def applicant(applicant_map, member):
 async def armory(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         if len(ctx.message.content.strip().split(" ")) <= 1:
-            await ctx.author.send("You need to type `!armory <the link to your armory profile here>`")
+            await ctx.author.send(APPLICATION_NOT_ENOUGH_ARMORY_INFO)
             return
         
         applicant(applicants, ctx.author)["armory"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send(APPLICATION_PROVIDED_ARMORY_TEXT)
+        await ctx.author.send(APPLICATION_PROVIDED_ARMORY)
 
 
 @bot.command()
@@ -59,11 +60,11 @@ async def armory(ctx):
 async def raiderio(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         if len(ctx.message.content.strip().split(" ")) <= 1:
-            await ctx.author.send("You need to type `!raiderio <the link to your raiderio profile here or N/A>`.")
+            await ctx.author.send(APPLICATION_NOT_ENOUGH_RAIDERIO_INFO)
             return
         
         applicant(applicants, ctx.author)["raiderio"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send(APPLICATION_PROVIDED_RAIDERIO_TEXT)
+        await ctx.author.send(APPLICATION_PROVIDED_RAIDERIO)
 
 
 @bot.command()
@@ -71,11 +72,11 @@ async def raiderio(ctx):
 async def logs(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         if len(ctx.message.content.strip().split(" ")) <= 1:
-            await ctx.author.send("You need to type `!logs <the link to your logs here or N/A>`")
+            await ctx.author.send(APPLICATION_NOT_ENOUGH_LOGS_INFO)
             return
         
         applicant(applicants, ctx.author)["logs"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send(APPLICATION_PROVIDED_LOGS_TEXT)
+        await ctx.author.send(APPLICATION_PROVIDED_LOGS)
 
 
 @bot.command()
@@ -83,11 +84,11 @@ async def logs(ctx):
 async def why(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         if len(ctx.message.content.strip().split(" ")) <= 1:
-            await ctx.author.send("You need to type `!why <the reason you want to join>`")
+            await ctx.author.send(APPLICATION_NOT_ENOUGH_WHY_INFO)
             return
         
         applicant(applicants, ctx.author)["why"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send(APPLICATION_PROVIDED_WHY_TEXT)
+        await ctx.author.send(APPLICATION_PROVIDED_WHY)
 
 
 @bot.command()
@@ -95,11 +96,11 @@ async def why(ctx):
 async def xp(ctx):
     if isinstance(ctx.channel, discord.DMChannel):
         if len(ctx.message.content.strip().split(" ")) <= 1:
-            await ctx.author.send("You need to type `!xp <your raiding history/experience here>`")
+            await ctx.author.send(APPLICATION_NOT_ENOUGH_XP_INFO)
             return
         
         applicant(applicants, ctx.author)["xp"] = ctx.message.content.split(None, 1)[1]
-        await ctx.author.send(APPLICATION_PROVIDED_XP_TEXT)
+        await ctx.author.send(APPLICATION_PROVIDED_XP)
 
 
 @bot.command()
@@ -138,9 +139,9 @@ async def done(ctx):
         
         applicant_map["done"] = datetime.now().strftime("%D")
 
-        await ctx.author.send(APPLICATION_SUBMITTED_TEXT)
+        await ctx.author.send(APPLICATION_SUBMITTED)
         channel = bot.get_channel(APPLICATIONS_CHANNEL)
-        await channel.send(APPLICATION_ACCEPTED_TEXT.format(datetime.now().strftime("%D"), ctx.author, applicant(applicants, ctx.author)["armory"], applicant(applicants, ctx.author)["raiderio"], applicant(applicants, ctx.author)["logs"], applicant(applicants, ctx.author)["why"], applicant(applicants, ctx.author)["xp"]))
+        await channel.send(APPLICATION_ACCEPTED.format(datetime.now().strftime("%D"), ctx.author, applicant(applicants, ctx.author)["armory"], applicant(applicants, ctx.author)["raiderio"], applicant(applicants, ctx.author)["logs"], applicant(applicants, ctx.author)["why"], applicant(applicants, ctx.author)["xp"]))
 
 
 @bot.command(pass_context=True)
@@ -151,10 +152,10 @@ async def friend(ctx):
     member = ctx.message.mentions[0]
 
     if role in member.roles:
-        await ctx.send(FRIEND_ROLE_ALREAD_ASSIGNED_TEXT)
+        await ctx.send(FRIEND_ROLE_ALREAD_ASSIGNED)
     else:
         await member.add_roles(role)
-        await ctx.send(FRIEND_ROLE_ASSIGNED_TEXT)
+        await ctx.send(FRIEND_ROLE_ASSIGNED)
 
 
 @bot.command(pass_context=True)
@@ -164,9 +165,9 @@ async def accept(ctx):
     role = discord.utils.get(bot.get_guild(GUILD).roles, name=GuildRoles.ROLE_INITIATE)
     member = ctx.message.mentions[0]
     channel = bot.get_channel(APPLICATIONS_CHANNEL)
-    await ctx.send(APPLICATION_ACCEPTED_RESPONSE_TEXT.format(member))
+    await ctx.send(APPLICATION_ACCEPTED_RESPONSE.format(member))
     await member.add_roles(role)
-    await channel.send(APPLICATION_ACCEPTED_TEXT.format(datetime.now().strftime("%D"), member.mention()))
+    await channel.send(APPLICATION_ACCEPTED.format(datetime.now().strftime("%D"), member.mention()))
 
 
 @bot.command(pass_context=True)
@@ -177,22 +178,22 @@ async def reject(ctx):
     member = ctx.message.mentions[0]
     
     if role not in member.roles:
-        await ctx.send(APPLICATION_REJECTED_NOT_APPLICANT_TEXT.format(member))
+        await ctx.send(APPLICATION_REJECTED_NOT_APPLICANT.format(member))
         return
 
-    reason = APPLICATION_DEFAULT_REJECTION_REASON_TEXT
+    reason = APPLICATION_DEFAULT_REJECTION_REASON
     if len(ctx.message.content.strip().split(" ")) >= 3:
         reason = ctx.message.content.split(None, 2)[2]
         
-    await ctx.send(APPLICATION_REJECTED_RESPONSE_TEXT.format(member))
+    await ctx.send(APPLICATION_REJECTED_RESPONSE.format(member))
     await member.remove_roles(role)
-    await member.send(APPLICATION_REJECTED_TEXT.format(member, reason))
+    await member.send(APPLICATION_REJECTED.format(member, reason))
 
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 5, commands.BucketType.user)
 async def rules(ctx):
-    await ctx.author.send(RULES_TEXT)
+    await ctx.author.send(RULES)
 
 
 @bot.command(pass_context=True)
@@ -210,7 +211,7 @@ async def help(ctx):
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def ranks(ctx):
-    await ctx.send(RANKS_TEXT)
+    await ctx.send(RANKS)
 
 
 @bot.command(pass_context=True)
@@ -222,32 +223,32 @@ async def roles(ctx):
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def alts(ctx):
-    await ctx.send(ALTS_TEXT)
+    await ctx.send(ALTS)
 
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def prep(ctx):
-    await ctx.send(PREPARATION_1_TEXT)
-    await ctx.send(PREPARATION_2_TEXT)
+    await ctx.send(PREPARATION_1)
+    await ctx.send(PREPARATION_2)
 
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def addons(ctx):
-    await ctx.send(ADDONS_TEXT)
+    await ctx.send(ADDONS)
 
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def times(ctx):
-    await ctx.send(TIMES_TEXT)
+    await ctx.send(TIMES)
 
 
 @bot.command(pass_context=True)
 @commands.cooldown(1, 30, commands.BucketType.user)
 async def about(ctx):
-    await ctx.send(ABOUT_TEXT)
+    await ctx.send(ABOUT)
 
 
 bot.run(os.getenv('DISCORD_TOKEN'))
