@@ -9,3 +9,5 @@ Our rules can be navigated with a menu based system. Our rules can be navigated 
 !alts        - We welcome alts in Silverblade.
 !friend      - We allow our guild members to invite friends.
 ```
+
+TEST EDIT
